@@ -23,9 +23,10 @@ const DrawingCanvas = () => {
     const fetchPrediction = async () => {
         setIsLoading(true);
         const pixelData = getCanvasData()
+        console.log(pixelData);
         try {
-            const link = "https://a4c1-2604-3d08-d182-ea00-a40e-f9b6-f268-fcc6.ngrok-free.app/predict"
-            // const link = "'http://localhost:8000/predict'"
+            // const link = "https://a4c1-2604-3d08-d182-ea00-a40e-f9b6-f268-fcc6.ngrok-free.app/predict"
+            const link = "http://localhost:8000/predict"
             const response = await axios.post(link, {data: pixelData}, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -89,7 +90,8 @@ const DrawingCanvas = () => {
             const row = [];
             for (let x = 0; x < 28; x++) {
                 const index = (y * 28 + x) * 4;
-                const alphaValue = imageData[index + 3]; // Check the alpha value to determine if the pixel is filled
+                // const alphaValue = imageData[index + 3] / 255; // Check the alpha value to determine if the pixel is filled
+                const alphaValue = imageData[index + 3] > 0 ? 255 : 0 // Check the alpha value to determine if the pixel is filled
                 row.push(alphaValue)
                 // row.push(alphaValue > 0 ? 1 : 0); // If pixel is not empty (alpha > 0), set to 1, otherwise set to 0
             }
